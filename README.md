@@ -40,4 +40,4 @@ These are the API endpoints for Student management system
 
 Made using [FastAPI](https://fastapi.tiangolo.com/)
 
-<img src="docs/endpoints.jpg" alt="API Endpoints">
+<img src="docs/endpoints.png" alt="API Endpoints">
