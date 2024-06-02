@@ -1,4 +1,3 @@
-import { AccordionSidebar } from "@/components/accordian-sidebar";
 
 
 export default function Home() {
