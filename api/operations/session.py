@@ -61,7 +61,7 @@ class SessionOperation:
                  )
             return updated_result
         else:
-            return self.fetch_one(id=id)
+            return await self.fetch_one(id=id)
         
 
     # Singleton architecture
