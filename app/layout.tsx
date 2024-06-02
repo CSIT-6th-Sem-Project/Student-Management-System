@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={inter.className}>
        <MainSidebar />
-        <main className="ml-[300px] mt-3">
+        <main className=" ml-[300px]  mt-5">
         {children}
         </main>
         </body>
