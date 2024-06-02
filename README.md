@@ -17,12 +17,12 @@ bun dev
 To run Backend api:   
 _first install all requirements_   
 - _Go to /api/ then run command:_ ```pip install -r requirements.txt```  
-- _To run the api got to /api/ and then use command:_ ```fastapi dev main.py``` (**for development**) , ```fastapi run main.py``` (**for deployment**)  
+- _To run the api got to /api/ and then use command:_ ```fastapi dev main.py``` (**for development**) , ```fastapi run main.py``` (**for deployment**) , you can signify port number by running ```fastapi dev main.py --port <port_number>``` ( **default is 8000** )
 > [!IMPORTANT]
 > - You need mongod/mongodb to run the api.  
 > - Install MongoDB from [here](https://www.mongodb.com/docs/manual/installation/).
 > - Also Install MongoDB Compass from [here](https://www.mongodb.com/products/tools/compass).
-> - Run MongoDB using command ```mongod``` or ```<path to mongod>\.mongod```
+> - Run MongoDB using command ```mongod``` or ```<path to mongod>\mongod.exe```
 > - Run MongoDB Compass , use Mongosh to create a database StudentManagementDB: ```use StudentManagementDB```.
 > - Run Command to create collection **student**,**course**,**subject**,**teacher** & **session** as: ```db.createCollection('<collection_name>')``` , **Note: collection name should be lowercase all**.
 > - You can then run the api run command.
@@ -30,6 +30,7 @@ _first install all requirements_
 
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:8000](http://localhost:8000) wiht your browser to see the api endpoints.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
