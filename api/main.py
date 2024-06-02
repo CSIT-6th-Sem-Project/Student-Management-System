@@ -6,11 +6,13 @@ from api.schemas.session import *
 from api.schemas.teacher import *
 from api.schemas.course import *
 from api.schemas.subject import *
+from api.schemas.student import *
 
 from api.operations.session import (SessionOperation)
 from api.operations.teacher import (TeacherOperation)
 from api.operations.course import (CourseOperation)
 from api.operations.subject import(SubjectOperation)
+from api.operations.student import (StudentOperation)
 
 
 # from .dummy_data import (STUDENT_DATA, COURSE_DATA, SESSION_DATA, SUBJECT_DATA, TEACHER_DATA)
@@ -52,29 +54,8 @@ app = FastAPI(title = "Student Management System",openapi_tags = tags_metadata, 
 @app.get("/",tags = ["base"])
 async def root():
 
-    return {"message":"Student Management System Project - 8th Sem Project"}
+    return {"message":"College Management System Project - 8th Sem Project"}
 
-########### STUDENT CRUD OPERATION ############################
-
-# @app.get("/student/",tags = ["student"], response_model = list[Student])
-# async def student() -> Any:
-#     return STUDENT_DATA
-
-# @app.get("/student/{id}", tags =["student"], response_model = Student)
-# async def get_student_by_id(id:str):
-#     return random.choice(STUDENT_DATA)
-
-# @app.post("/student/add", tags = ["student"], status_code = status.HTTP_201_CREATED )
-# async def add_student(student:StudentCreate):
-#     return {"message","Endpoint to add a new student"}
-
-# @app.post("/student/delete/{id}",tags = ["student"])
-# async def _student(id:str):
-#     return {"message","Endpoint to delete a student"}
-
-# @app.put("/student/update/{id}",tags = ["student"], response_model = Student)
-# async def update_student(id:str, student:Student):
-#     return {"message","Endpoint to update a student"}
 
 ########### COURSE CRUD OPERATION ############################
 
@@ -198,7 +179,7 @@ async def update_session(id:str,session: UpdateSessionModel =Body(...),
 @app.delete("/session/delete/{id}",
           tags = ["session"],
           response_description="Delete a single session")
-async def delete_course(id:str, 
+async def delete_session(id:str, 
                         dbo: SessionOperation = Depends(SessionOperation.get_connection)):
     deleted_items_count = await dbo.delete_one(id)
 
@@ -242,7 +223,7 @@ async def add_teacher(teacher: InsertTeacherModel = Body(...),
     if created_teacher:
         return created_teacher
     
-    raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail= "New session couldn't be added")
+    raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail= "New teacher couldn't be added")
 
 
 @app.put("/teacher/update/{id}",
@@ -264,7 +245,7 @@ async def update_teacher(id:str,teacher: UpdateTeacherModel=Body(...),
 @app.delete("/teacher/delete/{id}",
           tags = ["teacher"],
           response_description="Delete a single teacher")
-async def delete_course(id:str, 
+async def delete_teacher(id:str, 
                         dbo: TeacherOperation = Depends(TeacherOperation.get_connection)):
     deleted_items_count = await dbo.delete_one(id=id)
 
@@ -301,9 +282,9 @@ async def get_subject_by_id(id:str,
           response_description= "Add a single subject",
           status_code = status.HTTP_201_CREATED,
           response_model_by_alias= False)
-async def add_subject(teacher: InsertSubjectModel = Body(...), 
+async def add_subject(subject: InsertSubjectModel = Body(...), 
                      dbo:SubjectOperation = Depends(SubjectOperation.get_connection)):
-    created_subject = await dbo.create_one(teacher=teacher)
+    created_subject = await dbo.create_one(subject=subject)
     
     if created_subject:
         return created_subject
@@ -316,19 +297,18 @@ async def add_subject(teacher: InsertSubjectModel = Body(...),
          response_description="Update a subject",
          response_model_by_alias= False,
          response_model= SubjectModel)
-async def update_subject(id:str,subject: UpdateSubjectModel=Body(...), 
+async def update_subject(id:str,subject:UpdateSubjectModel = Body(...), 
                         dbo:SubjectOperation = Depends(SubjectOperation.get_connection)):
     
-    updated_subject = await dbo.update_one(id=id,teacher=teacher)
+    updated_subject = await dbo.update_one(id=id,subject=subject)
 
     if updated_subject is not None:
         return updated_subject
     
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Subject with id: {id} not found")
 
-
 @app.delete("/subject/delete/{id}",
-          tags = ["teacher"],
+          tags = ["subject"],
           response_description="Delete a single subject")
 async def delete_subject(id:str, 
                         dbo: SubjectOperation = Depends(SubjectOperation.get_connection)):
@@ -338,3 +318,69 @@ async def delete_subject(id:str,
         return Response(status_code=status.HTTP_204_NO_CONTENT)
     
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = f"Subject with id: {id} not found")
+
+####### STUDENT CRUD OPERATION #######
+
+@app.get("/student/",tags = ["student"], 
+         response_model = StudentCollection, 
+         response_description="List of all students", 
+         response_model_by_alias=False)
+async def student(dbo: StudentOperation = Depends(StudentOperation.get_connection) ):
+    
+    return await dbo.list(limit=10)
+
+@app.get("/student/{id}", tags = ["student"], 
+         response_model = StudentModel, 
+         response_description= "Fetch a single student",
+         response_model_by_alias=False,)
+async def get_student_by_id(id:str,
+                           dbo: StudentOperation = Depends(StudentOperation.get_connection)):
+    student = await dbo.fetch_one(id = id)
+
+    if student is not None:
+        return student
+    
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= f"Student with id: {id} not found")
+
+@app.post("/student/add" 
+          ,tags = ["student"],
+          response_model = StudentModel,
+          response_description= "Add a single student",
+          status_code = status.HTTP_201_CREATED,
+          response_model_by_alias= False)
+async def add_student(student: InsertStudentModel = Body(...), 
+                     dbo:StudentOperation = Depends(StudentOperation.get_connection)):
+    created_student = await dbo.create_one(student=student)
+    
+    if created_student:
+        return created_student
+    
+    raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,detail= "New student couldn't be added")
+
+
+@app.put("/student/update/{id}",
+         tags=["student"],
+         response_description="Update a student",
+         response_model_by_alias= False,
+         response_model= StudentModel)
+async def update_student(id:str,student: UpdateStudentModel=Body(...), 
+                        dbo:StudentOperation = Depends(StudentOperation.get_connection)):
+    
+    updated_student = await dbo.update_one(id=id,student=student)
+
+    if updated_student is not None:
+        return updated_student
+    
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Student with id: {id} not found")
+
+@app.delete("/student/delete/{id}",
+          tags = ["student"],
+          response_description="Delete a single student")
+async def delete_student(id:str, 
+                        dbo: StudentOperation = Depends(StudentOperation.get_connection)):
+    deleted_items_count = await dbo.delete_one(id=id)
+
+    if deleted_items_count == 1:
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+    
+    raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = f"Student with id: {id} not found")

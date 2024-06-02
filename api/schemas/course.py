@@ -14,13 +14,11 @@ class CourseModel(MBase):
 		arbitrary_types_allowed=True,
 		json_schema_extra={
 			"example":{
-				"id": "665ab84a5ad9a098cee6257a",
+				# "id": "665ab84a5ad9a098cee6257a",
 				"name":"Bsc.CSIT"
 			}
 		}
 )
-	
-
 
 class UpdateCourseModel(BaseModel):
     """

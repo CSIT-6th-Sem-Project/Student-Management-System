@@ -138,9 +138,9 @@ class SubjectOperation:
                  {"$set": subject_dict},
                  return_document=ReturnDocument.AFTER,
                  )
-            return updated_result
+            return await self.fetch_one(id=str(updated_result["_id"]))
         else:
-            return self.fetch_one(id=id)
+            return await self.fetch_one(id=id)
         
 
     # Singleton architecture
