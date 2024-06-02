@@ -102,8 +102,12 @@ export const Teacherdata: TableData = {
   ]
 };
 
+
 export const Teacherbuttons: ButtonConfig[] = [
-  { icon: FilePenLine, variant: 'default', className: 'bg-blue-600', label: 'Edit',  onClick: () => '/student'},
+  { icon: FilePenLine, variant: 'default', 
+  className: 'bg-blue-600', label: 'Edit',
+  onClick: () => window.location.href = '/teacher/edit' },
+  
   { icon: Trash, variant: 'destructive', className: 'bg-red-600', label: 'Delete' }
 ];
 

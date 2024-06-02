@@ -60,6 +60,7 @@ const CustomTable: React.FC<CustomTableProps> = ({ data, buttons, additionalHead
                                             icon={Button.icon}
                                             // variant={Button.variant}
                                             className={Button.className}
+                                            onClick={Button.onClick}
                                         >
                                             {Button.label}
                                         </SidebarButton>
