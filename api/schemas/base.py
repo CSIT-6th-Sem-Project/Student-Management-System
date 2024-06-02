@@ -10,50 +10,6 @@ class MBase(BaseModel):
 
 
 
-
-
-# class SubjectBase(BaseModel):
-# 	name: str 
-# 	course_id: str 
-# 	teacher_id: str
-
-# class SubjectCreate(SubjectBase):
-# 	pass
-
-# class Subject(Base,SubjectBase):
-
-# 	class Config:
-# 		orm_mode = True 
-
-# class CourseBase(BaseModel):
-# 	name: str
-
-# class CourseCreate(CourseBase):
-# 	pass
-
-# class Course(Base,CourseBase):
-# 	name: str
-# 	subjects: List[Teacher]
-# 	teachers: List[Subject]
-
-# 	class Config:
-# 		orm_mode = True
-
-
-
-# class SessionBase(BaseModel):
-# 	start_year: str
-# 	end_year: str
-
-# class SessionCreate(SessionBase):
-# 	pass
-
-# class Session(Base,SessionBase):
-	
-# 	class Config:
-# 		orm_mode = True
-
-
 # class StudentBase(BaseModel):
 # 	first_name: str 
 # 	last_name: str 

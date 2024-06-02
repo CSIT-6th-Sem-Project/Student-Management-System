@@ -18,7 +18,7 @@ class SubjectModel(MBase):
 		arbitrary_types_allowed=True,
 		json_schema_extra={
 			"example": {
-                "id":"665ad42f5ad9a098cee6257c",
+                # "id":"665ad42f5ad9a098cee6257c",
 				"name":"Advanced DataBase",
 				"course":CourseModel.model_config.get("json_schema_extra").get("example"),
                 "teacher":TeacherModel.model_config.get("json_schema_extra").get("example")
@@ -50,8 +50,8 @@ class UpdateSubjectModel(BaseModel):
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
         json_encoders={ObjectId: str},
-        json_schema_extra = SubjectModel.model_config.get("json_schema_extra"),
+        json_schema_extra = InsertSubjectModel.model_config.get("json_schema_extra"),
     )
 
 class SubjectCollection(BaseModel):
-    teachers: List[SubjectModel]
+    subjects: List[SubjectModel]
