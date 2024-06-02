@@ -13,6 +13,7 @@ export interface ButtonConfig {
     variant: string;
     className: string;
     label: string;
+    onClick?:()=>void
 }
 
 interface CustomTableProps {
